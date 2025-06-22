@@ -1,0 +1,13 @@
+{
+  "name": "Digital Performance Dashboard",
+  "description": "A community visualization for digital KPIs made by M_Khalili , in Looker Studio.",
+  "organization": "YOUR_NAME_OR_BRAND",
+  "logoUrl": "",
+  "packageUrl": "visualization.js",
+  "devMode": true,
+  "components": {
+    "data": {
+      "script": "visualization.js"
+    }
+  }
+}
