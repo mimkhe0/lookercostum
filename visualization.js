@@ -1,12 +1,7 @@
-// برای Looker Studio Community Visualization
-// نیاز به بارگذاری Chart.js دارد (CDN)
-// می‌توانید کد را مستقیماً با chart.js CDN استفاده کنید یا به صورت باندل‌شده
-// اگر خواستی کد را گسترش بده یا استایل سفارشی بده
-
 function drawViz(data, element) {
-  element.innerHTML = ''; // پاک کردن محتوا
+  element.innerHTML = '';
 
-  // ---- ۱. کارت‌های KPI ----
+  // ---- KPI Cards ----
   let kpiHtml = `
     <div style="display:flex;gap:18px;margin-bottom:28px;">
       ${renderKPI("Sessions", 0)}
@@ -17,7 +12,7 @@ function drawViz(data, element) {
     </div>
   `;
 
-  // ---- ۲. چارت خطی Sessions Over Time ----
+  // ---- Time Series Chart ----
   let timeSeriesLabels = [];
   let timeSeriesValues = [];
   if (data.tables.DEFAULT && data.tables.DEFAULT.length > 0) {
@@ -28,8 +23,7 @@ function drawViz(data, element) {
   }
   let chartHtml = `<canvas id="sessionChart" width="500" height="180" style="background:#fff;border-radius:12px;box-shadow:0 2px 8px #e0e4ef1a"></canvas>`;
 
-  // ---- ۳. نمودار دایره‌ای Channel Breakdown ----
-  // فرض بر این است که جدول CHANNEL_STATS داده شده (channelName, sessions)
+  // ---- Pie Chart: Channel Breakdown ----
   let pieLabels = [];
   let pieValues = [];
   if (data.tables.CHANNEL_STATS && data.tables.CHANNEL_STATS.length > 0) {
@@ -40,7 +34,7 @@ function drawViz(data, element) {
   }
   let pieHtml = `<canvas id="channelPie" width="280" height="180" style="background:#fff;border-radius:12px;box-shadow:0 2px 8px #e0e4ef1a"></canvas>`;
 
-  // ---- ۴. جدول عملکرد کانال‌ها ----
+  // ---- Channel Performance Table ----
   let channelTable = `<table style="width:100%;margin-top:28px;border-collapse:collapse;background:#fff;border-radius:12px;box-shadow:0 2px 8px #e0e4ef1a">
     <tr style="background:#f6f6fa;">
       <th style="padding:8px;">Channel</th>
@@ -61,7 +55,7 @@ function drawViz(data, element) {
   }
   channelTable += `</table>`;
 
-  // ---- تجمیع همه ----
+  // ---- Render All ----
   element.innerHTML = `
     <div style="font-family:Inter,sans-serif;background:#f7f7fb;padding:36px;">
       <h2 style="margin-bottom:18px;">Digital Performance Overview</h2>
@@ -74,7 +68,7 @@ function drawViz(data, element) {
     </div>
   `;
 
-  // ---- بارگذاری Chart.js ----
+  // ---- Chart.js Load and Render ----
   if (!window.Chart) {
     const script = document.createElement('script');
     script.src = "https://cdn.jsdelivr.net/npm/chart.js";
@@ -84,7 +78,6 @@ function drawViz(data, element) {
     renderCharts();
   }
 
-  // -------- توابع کمکی -----------
   function renderKPI(label, idx, suffix="") {
     let val = (data.tables.KPI && data.tables.KPI[0]) ? data.tables.KPI[0].metrics[idx] : "--";
     return `
@@ -96,7 +89,7 @@ function drawViz(data, element) {
   }
 
   function renderCharts() {
-    // چارت خطی
+    // Line chart
     if (window.Chart && document.getElementById('sessionChart')) {
       new Chart(document.getElementById('sessionChart').getContext('2d'), {
         type: 'line',
@@ -122,7 +115,7 @@ function drawViz(data, element) {
         }
       });
     }
-    // نمودار دایره‌ای
+    // Pie chart
     if (window.Chart && document.getElementById('channelPie')) {
       new Chart(document.getElementById('channelPie').getContext('2d'), {
         type: 'pie',
