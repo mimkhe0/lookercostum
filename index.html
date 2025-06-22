@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Databloo Viz Test</title>
+  <script src="visualization.js"></script>
+</head>
+<body>
+  <div id="viz"></div>
+  <script>
+    // دیتا تستی شبیه ساختار Looker Studio
+    const testData = {
+      tables: {
+        KPI: [{
+          metrics: [2100, 58.4, 147, 3.2, 12750]
+        }],
+        DEFAULT: [
+          {dimensions: ["2025-06-01"], metrics:[310]},
+          {dimensions: ["2025-06-02"], metrics:[360]},
+          {dimensions: ["2025-06-03"], metrics:[280]},
+          {dimensions: ["2025-06-04"], metrics:[405]},
+          {dimensions: ["2025-06-05"], metrics:[312]},
+          {dimensions: ["2025-06-06"], metrics:[433]}
+        ],
+        CHANNEL_STATS: [
+          {dimensions: ["Organic"], metrics: [1020, 5900, 2.1]},
+          {dimensions: ["Direct"], metrics: [680, 3700, 2.6]},
+          {dimensions: ["Referral"], metrics: [210, 1550, 1.1]},
+          {dimensions: ["Social"], metrics: [190, 2600, 1.7]}
+        ]
+      }
+    };
+    drawViz(testData, document.getElementById('viz'));
+  </script>
+</body>
+</html>
